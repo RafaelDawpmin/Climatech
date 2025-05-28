@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climatech</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Inclusão do Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1 id="climatech-title">Climatech</h1>
+    </header>
+
+    <nav id="menu-lateral">
+        <ul>
+            <li><a href="#alertas"><i class="fas fa-cloud-sun"></i> Alertas Climáticos</a></li>
+            <li><a href="#areas-risco"><i class="fas fa-map-marker-alt"></i> Áreas de Risco</a></li>
+            <li><a href="#pedir-ajuda"><i class="fas fa-hands-helping"></i> Pedir Ajuda</a></li>
+            <li><a href="#galeria"><i class="fas fa-images"></i> Galeria</a></li>
+            <li><a href="#noticias"><i class="fas fa-newspaper"></i> Notícias</a></li>
+            <li><a href="#contato"><i class="fas fa-phone-alt"></i> Contato</a></li>
+        </ul>
+    </nav>
+
+    <section id="alertas">
+        <h2>Alertas Climáticos</h2>
+        <p>Receba atualizações em tempo real sobre condições climáticas e alertas de riscos, como alagamentos e chuvas fortes.</p>
+        <input type="text" id="alertas-input" placeholder="Digite o nome da cidade">
+        <button id="alertas-button">Buscar Clima</button>
+        <div id="alerta-climatico"></div>
+    </section>
+
+    <section id="areas-risco">
+        <h2>Áreas de Risco</h2>
+        <p>Verifique as áreas vulneráveis para melhor se proteger em caso de desastres naturais.</p>
+        <ul>
+            <li>Área 1: Ribeirinho - Risco de alagamento.</li>
+            <li>Área 2: Baixada Norte - Risco de granizo.</li>
+            <li>Área 3: Centro - Risco de deslizamento de terra.</li>
+        </ul>
+    </section>
+
+    <section id="pedir-ajuda">
+        <h2>Pedir Ajuda</h2>
+        <p>Se você precisa de assistência em emergências climáticas, preencha o formulário abaixo.</p>
+        <form id="formAjuda" action="https://formspree.io/f/xwpvdejn" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="local">Local (Bairro):</label>
+            <input type="text" id="local" name="local" required>
+
+            <label for="numero-casa">Número da Casa:</label>
+            <input type="text" id="numero-casa" name="numero-casa" required>
+
+            <label for="tipo-ajuda">Tipo de Ajuda:</label>
+            <select id="tipo-ajuda" name="tipo-ajuda">
+                <option value="assistencia-social">Assistência Social</option>
+                <option value="evacuacao">Evacuação de Área</option>
+                <option value="ajuda-geral">Ajuda Geral</option>
+            </select>
+            
+            <label for="descricao">Descrição da Situação:</label>
+            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+
+            <button type="submit">Solicitar Ajuda</button>
+        </form>
+        <div id="mensagem-sucesso" style="display: none; color: green; margin-top: 1em;">
+            Seu pedido de ajuda foi enviado com sucesso! Em breve entraremos em contato.
+        </div>
+    </section>
+
+    <section id="galeria">
+        <h2>Galeria de Imagens</h2>
+        <p>Confira imagens da comunidade em ação para a resiliência climática.</p>
+        <div class="gallery">
+            <img src="img1.jpg" alt="Imagem 1">
+            <img src="img2.jpg" alt="Imagem 2">
+            <img src="img3.jpg" alt="Imagem 3">
+        </div>
+    </section>
+
+    <section id="noticias">
+        <h2>Últimas Notícias</h2>
+        <p>Acompanhe as últimas notícias sobre mudanças climáticas e resiliência.</p>
+        <ul id="lista-noticias">
+            <li><a href="#">Notícia 1: Chuvas fortes na região</a></li>
+            <li><a href="#">Notícia 2: Prevenção contra enchentes</a></li>
+        </ul>
+    </section>
+
+    <section id="contato">
+        <h2>Contato</h2>
+        <p>Se você tiver dúvidas ou precisar de mais informações, entre em contato conosco!</p>
+        <form id="form-contato" action="https://formspree.io/f/xwpvdejn" method="POST">
+            <label for="nome-contato">Nome:</label>
+            <input type="text" id="nome-contato" name="nome-contato" required>
+
+            <label for="email-contato">E-mail:</label>
+            <input type="email" id="email-contato" name="email-contato" required>
+
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+
+            <button type="submit">Enviar Mensagem</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 <strong>Climatech</strong> </p>
+            <div class="social-media">
+                <p>Nos acompanhe nas redes sociais:</p>
+                <ul>
+                    <li><a href="https://www.instagram.com/del.antonio_rafael" target="_blank"><i class="fab fa-instagram"></i> Instagram: @del.antonio_rafael</a></li>
+                    <li><a href="https://wa.me/5542991059866" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp: (42) 99105-9866</a></li>
+                    <li><a href="mailto:delantoniorafael@gmail.com"><i class="fas fa-envelope"></i> E-mail: delantoniorafael@gmail.com</a></li>
+                </ul>
+            </div>
+            <p class="created-by">Criado por: <strong>Rafael Del Antonio</strong></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
