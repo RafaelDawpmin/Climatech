@@ -4,9 +4,9 @@
     padding: 0;
     box-sizing: border-box;
   }
- body {
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('/home/escola/Downloads/imagem.png');
+    background-image: url('/home/escola/Downloads/imagem.png');
     background-size: cover;
     color: #333;
     line-height: 1.6;
@@ -14,6 +14,7 @@
     padding-top: 90px;
     transition: transform 0.3s ease;
   }
+  
   
 
   
