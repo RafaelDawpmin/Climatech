@@ -6,7 +6,7 @@
   }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url('/home/escola/Downloads/imagem.png');
+    background-image: url('imagem.png');
     background-size: cover;
     color: #333;
     line-height: 1.6;
