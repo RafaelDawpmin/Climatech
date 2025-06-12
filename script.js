@@ -7,6 +7,13 @@ window.onload = function () {
     const formAjuda = document.querySelector('#formAjuda');
     const mensagemSucesso = document.getElementById('mensagem-sucesso');
 
+    function exibirMensagem(texto, cor = 'red', tempo = 5000) {
+        mensagemSucesso.textContent = texto;
+        mensagemSucesso.style.color = cor;
+        mensagemSucesso.style.display = 'block';
+        setTimeout(() => mensagemSucesso.style.display = 'none', tempo);
+    }
+
     title.addEventListener('click', () => {
         menuLateral.classList.toggle('show');
     });
@@ -14,47 +21,36 @@ window.onload = function () {
     formAjuda.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const nome = document.getElementById('nome').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const local = document.getElementById('local').value.trim();
-        const numeroCasa = document.getElementById('numero-casa').value.trim();
-        const tipoAjuda = document.getElementById('tipo-ajuda').value.trim();
-        const descricao = document.getElementById('descricao').value.trim();
+        const campos = ['nome', 'email', 'local', 'numero-casa', 'tipo-ajuda', 'descricao'];
+        const dados = campos.reduce((acc, id) => {
+            acc[id] = document.getElementById(id).value.trim();
+            return acc;
+        }, {});
 
-        if (!nome || !email || !local || !numeroCasa || !tipoAjuda || !descricao) {
-            mensagemSucesso.textContent = "Por favor, preencha todos os campos.";
-            mensagemSucesso.style.color = 'red';
-            mensagemSucesso.style.display = 'block';
-            setTimeout(() => mensagemSucesso.style.display = 'none', 5000);
+        const camposVazios = Object.values(dados).some(valor => !valor);
+
+        if (camposVazios) {
+            exibirMensagem("Por favor, preencha todos os campos.");
             return;
         }
 
         const formData = new FormData(formAjuda);
-        
+
         fetch("https://formspree.io/f/xwpvdejn", {
             method: "POST",
             body: formData
         })
-        .then(function (response) {
+        .then(response => {
             if (response.ok) {
-                mensagemSucesso.textContent = "Seu pedido de ajuda foi enviado com sucesso! Em breve entraremos em contato.";
-                mensagemSucesso.style.color = 'green';
-                mensagemSucesso.style.display = 'block';
+                exibirMensagem("Seu pedido de ajuda foi enviado com sucesso! Em breve entraremos em contato.", 'green');
                 formAjuda.reset();
-                setTimeout(() => mensagemSucesso.style.display = 'none', 5000);
             } else {
-                mensagemSucesso.textContent = "Erro ao enviar pedido de ajuda. Tente novamente.";
-                mensagemSucesso.style.color = 'red';
-                mensagemSucesso.style.display = 'block';
-                setTimeout(() => mensagemSucesso.style.display = 'none', 5000);
+                exibirMensagem("Erro ao enviar pedido de ajuda. Tente novamente.");
             }
         })
-        .catch(function (error) {
-            console.error("Erro ao enviar e-mail:", error);
-            mensagemSucesso.textContent = "Erro ao enviar pedido de ajuda. Tente novamente.";
-            mensagemSucesso.style.color = 'red';
-            mensagemSucesso.style.display = 'block';
-            setTimeout(() => mensagemSucesso.style.display = 'none', 5000);
+        .catch(error => {
+            console.error("Erro ao enviar formulário:", error);
+            exibirMensagem("Erro ao enviar pedido de ajuda. Verifique sua conexão.");
         });
     });
 
@@ -65,46 +61,48 @@ window.onload = function () {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                if (data.cod === 200) {
-                    const clima = data.weather[0].description;
-                    const temperatura = data.main.temp;
-                    const tempMax = data.main.temp_max;
-                    const tempMin = data.main.temp_min;
-                    const umidade = data.main.humidity;
-                    const vento = data.wind.speed;
-                    const cidadeNome = data.name;
-                    const pais = data.sys.country;
-                    const icon = data.weather[0].icon;
-                    const horaAmanhecer = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
-                    const horaPorDoSol = new Date(data.sys.sunset * 1000).toLocaleTimeString();
-                    const pressao = data.main.pressure;
+                if (data.cod !== 200) {
+                    alertaDiv.innerHTML = `<p>Não foi possível obter as informações climáticas. Verifique o nome da cidade.</p>`;
+                    return;
+                }
 
-                    alertaDiv.innerHTML = `
-                        <div class="clima-container">
-                            <div class="clima-header">
-                                <h2>Clima em ${cidadeNome}, ${pais}</h2>
-                                <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Ícone do clima">
-                            </div>
-                            <div class="clima-info">
-                                <div class="clima-detalhes">
-                                    <p><strong>Clima:</strong> ${clima}</p>
-                                    <p><strong>Temperatura:</strong> ${temperatura}°C</p>
-                                    <p><strong>Máxima:</strong> ${tempMax}°C | <strong>Mínima:</strong> ${tempMin}°C</p>
-                                    <p><strong>Umidade:</strong> ${umidade}%</p>
-                                    <p><strong>Vento:</strong> ${vento} km/h</p>
-                                    <p><strong>Pressão:</strong> ${pressao} hPa</p>
-                                    <p><strong>Amanhecer:</strong> ${horaAmanhecer}</p>
-                                    <p><strong>Pôr do sol:</strong> ${horaPorDoSol}</p>
-                                </div>
+                const {
+                    name: cidadeNome,
+                    sys: { country: pais, sunrise, sunset },
+                    weather,
+                    main: { temp, temp_max, temp_min, humidity, pressure },
+                    wind: { speed: vento }
+                } = data;
+
+                const descricao = weather[0].description;
+                const icon = weather[0].icon;
+                const horaAmanhecer = new Date(sunrise * 1000).toLocaleTimeString();
+                const horaPorDoSol = new Date(sunset * 1000).toLocaleTimeString();
+
+                alertaDiv.innerHTML = `
+                    <div class="clima-container">
+                        <div class="clima-header">
+                            <h2>Clima em ${cidadeNome}, ${pais}</h2>
+                            <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Ícone do clima">
+                        </div>
+                        <div class="clima-info">
+                            <div class="clima-detalhes">
+                                <p><strong>Clima:</strong> ${descricao}</p>
+                                <p><strong>Temperatura:</strong> ${temp}°C</p>
+                                <p><strong>Máxima:</strong> ${temp_max}°C | <strong>Mínima:</strong> ${temp_min}°C</p>
+                                <p><strong>Umidade:</strong> ${humidity}%</p>
+                                <p><strong>Vento:</strong> ${vento} km/h</p>
+                                <p><strong>Pressão:</strong> ${pressure} hPa</p>
+                                <p><strong>Amanhecer:</strong> ${horaAmanhecer}</p>
+                                <p><strong>Pôr do sol:</strong> ${horaPorDoSol}</p>
                             </div>
                         </div>
-                    `;
-                } else {
-                    alertaDiv.innerHTML = `<p>Não foi possível obter as informações climáticas. Tente novamente mais tarde.</p>`;
-                }
+                    </div>
+                `;
             })
-            .catch(err => {
-                alertaDiv.innerHTML = `<p>Erro ao buscar informações climáticas. Verifique sua conexão ou tente novamente mais tarde.</p>`;
+            .catch(error => {
+                console.error("Erro ao buscar clima:", error);
+                alertaDiv.innerHTML = `<p>Erro ao buscar informações climáticas. Verifique sua conexão.</p>`;
             });
     }
 
