@@ -116,5 +116,4 @@ window.onload = function () {
             alertaDiv.innerHTML = `<p>Por favor, insira o nome de uma cidade.</p>`;
         }
     });
-
 };
