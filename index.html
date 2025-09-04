@@ -3,130 +3,1487 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climatech</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Climatech - Resiliência Climática Comunitária</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-top: 90px;
+        }
+
+        header {
+            background: rgba(46, 125, 50, 0.95);
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 80px;
+            padding: 1.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        header h1:hover {
+            color: #66BB6A;
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #menu-lateral {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(180deg, #2E7D32 0%, #1B5E20 100%);
+            padding-top: 100px;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+        #menu-lateral.show {
+            left: 0;
+        }
+
+        #menu-lateral ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        #menu-lateral ul li {
+            margin-bottom: 15px;
+        }
+
+        #menu-lateral ul li a {
+            display: flex;
+            align-items: center;
+            color: #FFF;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        #menu-lateral ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(8px);
+        }
+
+        #menu-lateral ul li a i {
+            font-size: 1.5em;
+            margin-right: 15px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        section {
+            padding: 2.5em;
+            margin: 2em auto;
+            background: rgba(255, 255, 255, 0.95);
+            max-width: 1000px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            color: #2E7D32;
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 1em;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2E7D32, #66BB6A);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2em;
+            flex-wrap: wrap;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .search-container input:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+            outline: none;
+        }
+
+        .search-container button {
+            background: linear-gradient(135deg, #2E7D32, #388E3C);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .search-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+        }
+
+        #alerta-climatico {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 2em;
+            margin-top: 2em;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-height: 100px;
+        }
+
+        .clima-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            align-items: start;
+        }
+
+        .clima-header {
+            text-align: center;
+        }
+
+        .clima-header h3 {
+            color: #2E7D32;
+            font-size: 1.8em;
+            margin-bottom: 1em;
+        }
+
+        .clima-header img {
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .clima-info {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5em;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .clima-info p {
+            margin-bottom: 0.8em;
+            font-size: 1.1em;
+        }
+
+        .clima-info strong {
+            color: #1B5E20;
+        }
+
+        .risk-areas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .risk-card {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.15);
+            border-left: 6px solid #FF9800;
+            transition: all 0.3s ease;
+        }
+
+        .risk-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.25);
+        }
+
+        .risk-card h3 {
+            color: #E65100;
+            font-size: 1.4em;
+            margin-bottom: 1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .risk-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 1em;
+        }
+
+        .risk-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .risk-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .risk-low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2em 1.5em 1.5em;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.2em;
+            margin-bottom: 0.5em;
+        }
+
+        .emergency-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .emergency-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4), 0 0 0 0 rgba(211, 47, 47, 0.7); }
+            70% { box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4), 0 0 0 10px rgba(211, 47, 47, 0); }
+            100% { box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4), 0 0 0 0 rgba(211, 47, 47, 0); }
+        }
+
+        form {
+            display: grid;
+            gap: 1.5em;
+        }
+
+        label {
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 0.5em;
+        }
+
+        input, select, textarea {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #2E7D32, #388E3C);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #263238, #37474f);
+            color: white;
+            text-align: center;
+            padding: 3em 2em;
+            margin-top: 3em;
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .social-media ul {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            flex-wrap: wrap;
+            margin: 2em 0;
+            list-style: none;
+        }
+
+        .social-media li {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .social-media li:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .social-media a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #lista-noticias {
+            list-style: none;
+        }
+
+        #lista-noticias li {
+            background: rgba(46, 125, 50, 0.05);
+            padding: 1.5em;
+            margin-bottom: 1em;
+            border-radius: 10px;
+            border-left: 4px solid #2E7D32;
+            transition: all 0.3s ease;
+        }
+
+        #lista-noticias li:hover {
+            background: rgba(46, 125, 50, 0.1);
+            transform: translateX(5px);
+        }
+
+        .message {
+            padding: 1em;
+            border-radius: 8px;
+            margin: 1em 0;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .api-credits {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 2em;
+            border-radius: 15px;
+            margin-top: 2em;
+            border-left: 6px solid #2196F3;
+        }
+
+        .api-credits h3 {
+            color: #0d47a1;
+            font-size: 1.3em;
+            margin-bottom: 1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .api-credits ul {
+            list-style: none;
+        }
+
+        .api-credits li {
+            background: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1em;
+            padding: 1em;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .api-credits a {
+            color: #1565c0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .api-credits a:hover {
+            text-decoration: underline;
+        }
+
+        .resource-button {
+            margin-top: 1em;
+            padding: 0.8em 1.5em;
+            background: #2E7D32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .resource-button:hover {
+            background: #1B5E20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .clima-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            section {
+                padding: 1.5em;
+                margin: 1em;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .social-media ul {
+                flex-direction: column;
+                gap: 1em;
+            }
+
+            header h1 {
+                font-size: 2.2em;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1 id="climatech-title">Climatech</h1>
+        <h1 id="climatech-title">🌍 Climatech</h1>
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
+
+    <div class="overlay" id="overlay"></div>
 
     <nav id="menu-lateral">
         <ul>
             <li><a href="#alertas"><i class="fas fa-cloud-sun"></i> Alertas Climáticos</a></li>
-            <li><a href="#areas-risco"><i class="fas fa-map-marker-alt"></i> Áreas de Risco</a></li>
+            <li><a href="#areas-risco"><i class="fas fa-exclamation-triangle"></i> Áreas de Risco</a></li>
             <li><a href="#pedir-ajuda"><i class="fas fa-hands-helping"></i> Pedir Ajuda</a></li>
-            <li><a href="#galeria"><i class="fas fa-images"></i> Galeria</a></li>
+            <li><a href="#galeria"><i class="fas fa-shield-alt"></i> Defesa Civil</a></li>
             <li><a href="#noticias"><i class="fas fa-newspaper"></i> Notícias</a></li>
+            <li><a href="#recursos"><i class="fas fa-tools"></i> Recursos</a></li>
             <li><a href="#contato"><i class="fas fa-phone-alt"></i> Contato</a></li>
         </ul>
     </nav>
 
     <section id="alertas">
-        <h2>Alertas Climáticos</h2>
-        <p>Receba atualizações em tempo real sobre condições climáticas e alertas de riscos, como alagamentos e chuvas fortes.</p>
-        <input type="text" id="alertas-input" placeholder="Digite o nome da cidade">
-        <button id="alertas-button">Buscar Clima</button>
-        <div id="alerta-climatico"></div>
-    </section>
-
-    <section id="areas-risco">
-        <h2>Áreas de Risco</h2>
-        <p>Verifique as áreas vulneráveis para melhor se proteger em caso de desastres naturais.</p>
-        <ul>
-            <li>Área 1: Ribeirinho - Risco de alagamento.</li>
-            <li>Área 2: Baixada Norte - Risco de granizo.</li>
-            <li>Área 3: Centro - Risco de deslizamento de terra.</li>
-        </ul>
-    </section>
-
-    <section id="pedir-ajuda">
-        <h2>Pedir Ajuda</h2>
-        <p>Se você precisa de assistência em emergências climáticas, preencha o formulário abaixo.</p>
-        <form id="formAjuda" action="https://formspree.io/f/xwpvdejn" method="POST">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="local">Local (Bairro):</label>
-            <input type="text" id="local" name="local" required>
-
-            <label for="numero-casa">Número da Casa:</label>
-            <input type="text" id="numero-casa" name="numero-casa" required>
-
-            <label for="tipo-ajuda">Tipo de Ajuda:</label>
-            <select id="tipo-ajuda" name="tipo-ajuda">
-                <option value="assistencia-social">Assistência Social</option>
-                <option value="evacuacao">Evacuação de Área</option>
-                <option value="ajuda-geral">Ajuda Geral</option>
-            </select>
-            
-            <label for="descricao">Descrição da Situação:</label>
-            <textarea id="descricao" name="descricao" rows="4" required></textarea>
-
-            <button type="submit">Solicitar Ajuda</button>
-        </form>
-        <div id="mensagem-sucesso" style="display: none; color: green; margin-top: 1em;">
-            Seu pedido de ajuda foi enviado com sucesso! Em breve entraremos em contato.
+        <h2><i class="fas fa-cloud-sun"></i> Monitoramento Climático</h2>
+        <p>Sistema inteligente de alertas climáticos com dados meteorológicos em tempo real e análise de riscos específicos para sua região.</p>
+        
+        <div class="search-container">
+            <input type="text" id="alertas-input" placeholder="Digite o nome da sua cidade...">
+            <button id="alertas-button">
+                <i class="fas fa-search"></i> Buscar Clima
+            </button>
+        </div>
+        
+        <div id="alerta-climatico">
+            <p style="text-align: center; color: #666; font-style: italic;">
+                <i class="fas fa-info-circle"></i> Digite o nome de uma cidade para obter informações climáticas detalhadas
+            </p>
         </div>
     </section>
 
+    <section id="areas-risco">
+        <h2><i class="fas fa-exclamation-triangle"></i> Mapeamento de Riscos</h2>
+        <p>Identificação inteligente de áreas vulneráveis baseada em dados geográficos e histórico de desastres naturais.</p>
+        
+        <div class="search-container">
+            <input type="text" id="risk-city-input" placeholder="Digite sua cidade para verificar áreas de risco...">
+            <button id="risk-search-button">
+                <i class="fas fa-map-marked-alt"></i> Buscar Áreas de Risco
+            </button>
+        </div>
+
+        <div class="risk-areas-container" id="risk-areas">
+            <div class="risk-card">
+                <h3><i class="fas fa-water"></i> Alagamentos</h3>
+                <p>Áreas próximas a rios e córregos com histórico de transbordamento durante chuvas intensas.</p>
+                <span class="risk-level risk-high">Risco Alto</span>
+            </div>
+            
+            <div class="risk-card">
+                <h3><i class="fas fa-mountain"></i> Deslizamentos</h3>
+                <p>Encostas e morros com solo instável, especialmente em períodos de chuva prolongada.</p>
+                <span class="risk-level risk-medium">Risco Médio</span>
+            </div>
+            
+            <div class="risk-card">
+                <h3><i class="fas fa-bolt"></i> Tempestades</h3>
+                <p>Regiões com maior incidência de raios e ventos fortes durante tempestades.</p>
+                <span class="risk-level risk-medium">Risco Médio</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="pedir-ajuda">
+        <h2><i class="fas fa-hands-helping"></i> Central de Emergência</h2>
+        <p>Sistema de solicitação rápida para emergências climáticas com priorização automática e geolocalização.</p>
+        
+        <form id="formAjuda" action="https://formspree.io/f/xwpvdejn" method="POST">
+            <label for="nome"><i class="fas fa-user"></i> Nome Completo:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email"><i class="fas fa-envelope"></i> E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="telefone"><i class="fas fa-phone"></i> Telefone de Emergência:</label>
+            <input type="tel" id="telefone" name="telefone" required>
+
+            <label for="local"><i class="fas fa-map-marker-alt"></i> Endereço Completo:</label>
+            <input type="text" id="local" name="local" placeholder="Rua, número, bairro, cidade" required>
+
+            <label for="tipo-ajuda"><i class="fas fa-ambulance"></i> Tipo de Emergência:</label>
+            <select id="tipo-ajuda" name="tipo-ajuda" required>
+                <option value="">Selecione o tipo de emergência</option>
+                <option value="alagamento">Alagamento</option>
+                <option value="deslizamento">Deslizamento de Terra</option>
+                <option value="tempestade">Danos por Tempestade</option>
+                <option value="evacuacao">Evacuação de Área</option>
+                <option value="assistencia-medica">Assistência Médica</option>
+                <option value="assistencia-social">Assistência Social</option>
+                <option value="outro">Outro</option>
+            </select>
+            
+            <label for="urgencia"><i class="fas fa-exclamation"></i> Nível de Urgência:</label>
+            <select id="urgencia" name="urgencia" required>
+                <option value="">Selecione a urgência</option>
+                <option value="critica">Crítica - Risco de vida</option>
+                <option value="alta">Alta - Necessita ação imediata</option>
+                <option value="media">Média - Situação controlável</option>
+                <option value="baixa">Baixa - Não há risco imediato</option>
+            </select>
+            
+            <label for="descricao"><i class="fas fa-comment-alt"></i> Descrição Detalhada:</label>
+            <textarea id="descricao" name="descricao" rows="4" placeholder="Descreva a situação, número de pessoas afetadas, recursos necessários..." required></textarea>
+
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i> Solicitar Ajuda Emergencial
+            </button>
+        </form>
+        
+        <div id="mensagem-sucesso" class="message"></div>
+    </section>
+
     <section id="galeria">
-        <h2>Galeria de Imagens</h2>
-        <p>Confira imagens da comunidade em ação para a resiliência climática.</p>
+        <h2><i class="fas fa-shield-alt"></i> Defesa Civil em Ação</h2>
+        <p>Galeria educativa com exemplos de atuação da Defesa Civil e orientações para situações de emergência.</p>
+        
         <div class="gallery">
-            <img src="img1.jpg" alt="Imagem 1">
-            <img src="img2.jpg" alt="Imagem 2">
-            <img src="img3.jpg" alt="Imagem 3">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=300&fit=crop" alt="Equipe de Resgate">
+                <div class="gallery-overlay">
+                    <h4>Operação de Resgate</h4>
+                    <p>Equipes especializadas em resgates em áreas alagadas utilizam equipamentos específicos para evacuação segura.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1504439904031-93ded9f93e4e?w=400&h=300&fit=crop" alt="Abrigo Temporário">
+                <div class="gallery-overlay">
+                    <h4>Abrigos Temporários</h4>
+                    <p>Centros de acolhimento organizados pela Defesa Civil oferecem segurança e suporte básico às famílias desabrigadas.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1591154669695-5f2a8d20be45?w=400&h=300&fit=crop" alt="Distribuição de Suprimentos">
+                <div class="gallery-overlay">
+                    <h4>Distribuição de Suprimentos</h4>
+                    <p>Logística de distribuição de água, alimentos e materiais de primeira necessidade para áreas atingidas.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&h=300&fit=crop" alt="Monitoramento">
+                <div class="gallery-overlay">
+                    <h4>Centro de Monitoramento</h4>
+                    <p>Sistemas de monitoramento 24h acompanham condições meteorológicas e coordenam ações preventivas.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1562813733-b31f71025d54?w=400&h=300&fit=crop" alt="Treinamento">
+                <div class="gallery-overlay">
+                    <h4>Capacitação Comunitária</h4>
+                    <p>Programas de treinamento ensinam a população sobre prevenção e primeiros socorros em emergências.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Recuperação">
+                <div class="gallery-overlay">
+                    <h4>Recuperação Pós-Desastre</h4>
+                    <p>Trabalho de reconstrução e apoio psicossocial para comunidades afetadas por desastres naturais.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="noticias">
-        <h2>Últimas Notícias</h2>
-        <p>Acompanhe as últimas notícias sobre mudanças climáticas e resiliência.</p>
+        <h2><i class="fas fa-newspaper"></i> Central de Notícias</h2>
+        <p>Últimas atualizações sobre mudanças climáticas, prevenção de desastres e resiliência comunitária.</p>
+        
+        <div class="search-container">
+            <input type="text" id="news-search" placeholder="Buscar notícias sobre clima...">
+            <button id="news-button">
+                <i class="fas fa-search"></i> Buscar Notícias
+            </button>
+        </div>
+        
         <ul id="lista-noticias">
-            <li><a href="#">Notícia 1: Chuvas fortes na região</a></li>
-            <li><a href="#">Notícia 2: Prevenção contra enchentes</a></li>
+            <li>
+                <i class="fas fa-cloud-rain"></i>
+                <strong>Sistema de Alerta Precoce:</strong> Nova tecnologia detecta chuvas fortes com 2 horas de antecedência
+                <small style="float: right; color: #666;">(2 horas atrás)</small>
+            </li>
+            <li>
+                <i class="fas fa-home"></i>
+                <strong>Construção Resiliente:</strong> Novas técnicas de construção reduzem danos em 70% durante enchentes
+                <small style="float: right; color: #666;">(5 horas atrás)</small>
+            </li>
+            <li>
+                <i class="fas fa-users"></i>
+                <strong>Capacitação Comunitária:</strong> Mais de 500 famílias treinadas em primeiros socorros este mês
+                <small style="float: right; color: #666;">(1 dia atrás)</small>
+            </li>
+            <li>
+                <i class="fas fa-seedling"></i>
+                <strong>Reflorestamento:</strong> Projeto planta 10 mil árvores para prevenir deslizamentos
+                <small style="float: right; color: #666;">(2 dias atrás)</small>
+            </li>
         </ul>
     </section>
 
+    <section id="recursos">
+        <h2><i class="fas fa-tools"></i> Kit de Recursos</h2>
+        <p>Ferramentas, guias e recursos essenciais para preparação e resposta a emergências climáticas.</p>
+        
+        <div class="risk-areas-container">
+            <div class="risk-card">
+                <h3><i class="fas fa-first-aid"></i> Kit de Emergência</h3>
+                <p>Lista completa de itens essenciais que toda família deve ter preparada para situações de emergência.</p>
+                <button class="resource-button" onclick="showEmergencyKit()">
+                    Ver Lista Completa
+                </button>
+            </div>
+            
+            <div class="risk-card">
+                <h3><i class="fas fa-route"></i> Rotas de Evacuação</h3>
+                <p>Mapeamento interativo das rotas de evacuação e pontos de encontro seguros na sua região.</p>
+                <button class="resource-button" onclick="showEvacuationRoutes()">
+                    Ver Rotas
+                </button>
+            </div>
+            
+            <div class="risk-card">
+                <h3><i class="fas fa-phone"></i> Contatos de Emergência</h3>
+                <p>Lista atualizada de telefones e contatos essenciais para diferentes tipos de emergência.</p>
+                <button class="resource-button" onclick="showEmergencyContacts()">
+                    Ver Contatos
+                </button>
+            </div>
+        </div>
+        
+        <div class="api-credits">
+            <h3><i class="fas fa-code"></i> APIs e Fontes de Dados Utilizadas</h3>
+            <ul>
+                <li>
+                    <i class="fas fa-cloud"></i>
+                    <strong>OpenWeatherMap API:</strong> 
+                    <a href="https://openweathermap.org/api" target="_blank">Dados meteorológicos em tempo real</a>
+                </li>
+                <li>
+                    <i class="fas fa-satellite"></i>
+                    <strong>INPE - Instituto Nacional de Pesquisas Espaciais:</strong> 
+                    <a href="http://www.inpe.br/" target="_blank">Dados de satélite e alertas climáticos</a>
+                </li>
+                <li>
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>CENAD - Centro Nacional de Gerenciamento de Riscos:</strong> 
+                    <a href="https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil" target="_blank">Alertas de Defesa Civil</a>
+                </li>
+                <li>
+                    <i class="fas fa-map"></i>
+                    <strong>IBGE - Instituto Brasileiro de Geografia e Estatística:</strong> 
+                    <a href="https://www.ibge.gov.br/" target="_blank">Dados geográficos e demográficos</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
     <section id="contato">
-        <h2>Contato</h2>
-        <p>Se você tiver dúvidas ou precisar de mais informações, entre em contato conosco!</p>
+        <h2><i class="fas fa-phone-alt"></i> Fale Conosco</h2>
+        <p>Entre em contato para sugestões, parcerias ou informações sobre o projeto Climatech.</p>
+        
         <form id="form-contato" action="https://formspree.io/f/xwpvdejn" method="POST">
-            <label for="nome-contato">Nome:</label>
+            <label for="nome-contato"><i class="fas fa-user"></i> Nome:</label>
             <input type="text" id="nome-contato" name="nome-contato" required>
 
-            <label for="email-contato">E-mail:</label>
+            <label for="email-contato"><i class="fas fa-envelope"></i> E-mail:</label>
             <input type="email" id="email-contato" name="email-contato" required>
+            
+            <label for="assunto"><i class="fas fa-tag"></i> Assunto:</label>
+            <select id="assunto" name="assunto" required>
+                <option value="">Selecione o assunto</option>
+                <option value="sugestao">Sugestão</option>
+                <option value="parceria">Parceria</option>
+                <option value="bug">Reportar Problema</option>
+                <option value="info">Solicitar Informações</option>
+                <option value="outro">Outro</option>
+            </select>
 
-            <label for="mensagem">Mensagem:</label>
+            <label for="mensagem"><i class="fas fa-comment"></i> Mensagem:</label>
             <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
 
-            <button type="submit">Enviar Mensagem</button>
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i> Enviar Mensagem
+            </button>
         </form>
+        
+        <div id="mensagem-contato" class="message"></div>
     </section>
 
     <footer>
         <div class="footer-container">
-            <p>&copy; 2025 <strong>Climatech</strong> </p>
+            <p>&copy; 2025 <strong>Climatech</strong> - Tecnologia para Resiliência Climática</p>
             <div class="social-media">
-                <p>Nos acompanhe nas redes sociais:</p>
+                <p>Conecte-se conosco:</p>
                 <ul>
-                    <li><a href="https://www.instagram.com/del.antonio_rafael" target="_blank"><i class="fab fa-instagram"></i> Instagram: @del.antonio_rafael</a></li>
-                    <li><a href="https://wa.me/5542991059866" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp: (42) 99105-9866</a></li>
-                    <li><a href="mailto:delantoniorafael@gmail.com"><i class="fas fa-envelope"></i> E-mail: delantoniorafael@gmail.com</a></li>
+                    <li>
+                        <a href="https://www.instagram.com/del.antonio_rafael" target="_blank">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/5542991059866" target="_blank">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:delantoniorafael@gmail.com">
+                            <i class="fas fa-envelope"></i> E-mail
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/RafaelDawpmin/Climatech" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </li>
                 </ul>
-                <a href="https://github.com/RafaelDawpmin/Climatech/blob/main/LICENSE">Copyright (c) 2025 Rafael Del Antonio</a>
             </div>
-            <p class="created-by">Criado por: <strong>Rafael Del Antonio</strong></p>
+            <p class="created-by">
+                <strong>Desenvolvido por Rafael Del Antonio</strong><br>
+                <a href="https://github.com/RafaelDawpmin/Climatech/blob/main/LICENSE" style="color: #66BB6A;">
+                    Licença MIT - Código Aberto
+                </a>
+            </p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <button class="emergency-button" onclick="emergencyCall()" title="Emergência - Clique para acesso rápido aos contatos de emergência">
+        <i class="fas fa-exclamation"></i>
+    </button>
+
+    <script>
+        // Estado da aplicação
+        const appState = {
+            menuOpen: false,
+            currentCity: '',
+            emergencyContacts: {
+                bombeiros: '193',
+                samu: '192',
+                policia: '190',
+                defesaCivil: '199'
+            }
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            setupNavigation();
+            loadInitialData();
+        });
+
+        function setupEventListeners() {
+            // Menu toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuLateral = document.getElementById('menu-lateral');
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('climatech-title');
+
+            [menuToggle, title].forEach(element => {
+                element.addEventListener('click', () => toggleMenu());
+            });
+
+            overlay.addEventListener('click', () => toggleMenu());
+
+            // Botões de busca
+            document.getElementById('alertas-button').addEventListener('click', searchWeather);
+            document.getElementById('risk-search-button').addEventListener('click', searchRiskAreas);
+            document.getElementById('news-button').addEventListener('click', searchNews);
+
+            // Enter para busca
+            document.getElementById('alertas-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchWeather();
+            });
+
+            document.getElementById('risk-city-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchRiskAreas();
+            });
+
+            document.getElementById('news-search').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchNews();
+            });
+
+            // Formulários
+            document.getElementById('formAjuda').addEventListener('submit', handleEmergencyForm);
+            document.getElementById('form-contato').addEventListener('submit', handleContactForm);
+        }
+
+        function toggleMenu() {
+            const menuLateral = document.getElementById('menu-lateral');
+            const overlay = document.getElementById('overlay');
+            
+            appState.menuOpen = !appState.menuOpen;
+            
+            if (appState.menuOpen) {
+                menuLateral.classList.add('show');
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menuLateral.classList.remove('show');
+                overlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function setupNavigation() {
+            document.querySelectorAll('#menu-lateral a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    
+                    if (target) {
+                        target.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        toggleMenu();
+                    }
+                });
+            });
+        }
+
+        function searchWeather() {
+            const cidade = document.getElementById('alertas-input').value.trim();
+            const alertaDiv = document.getElementById('alerta-climatico');
+            const button = document.getElementById('alertas-button');
+
+            if (!cidade) {
+                showMessage(alertaDiv, 'Por favor, digite o nome de uma cidade.', 'error');
+                return;
+            }
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+            button.disabled = true;
+
+            appState.currentCity = cidade;
+            fetchWeatherData(cidade);
+        }
+
+        async function fetchWeatherData(cidade) {
+            const apiKey = '8c82fcea5074bdde5d56a56c8df0c123';
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&lang=pt_br&units=metric`;
+            const alertaDiv = document.getElementById('alerta-climatico');
+            const button = document.getElementById('alertas-button');
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.cod !== 200) {
+                    throw new Error('Cidade não encontrada');
+                }
+
+                displayWeatherData(data);
+                
+            } catch (error) {
+                console.error('Erro ao buscar clima:', error);
+                alertaDiv.innerHTML = `
+                    <div style="text-align: center; color: #d32f2f; padding: 2em;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2em; margin-bottom: 1em;"></i>
+                        <p><strong>Erro ao buscar informações climáticas</strong></p>
+                        <p>Verifique o nome da cidade e sua conexão com a internet.</p>
+                    </div>
+                `;
+            } finally {
+                button.innerHTML = '<i class="fas fa-search"></i> Buscar Clima';
+                button.disabled = false;
+            }
+        }
+
+        function displayWeatherData(data) {
+            const alertaDiv = document.getElementById('alerta-climatico');
+            
+            const {
+                name: cidadeNome,
+                sys: { country: pais, sunrise, sunset },
+                weather,
+                main: { temp, temp_max, temp_min, humidity, pressure, feels_like },
+                wind: { speed: vento },
+                visibility,
+                dt
+            } = data;
+
+            const descricao = weather[0].description;
+            const icon = weather[0].icon;
+            const horaAmanhecer = new Date(sunrise * 1000).toLocaleTimeString('pt-BR');
+            const horaPorDoSol = new Date(sunset * 1000).toLocaleTimeString('pt-BR');
+            const ultimaAtualizacao = new Date(dt * 1000).toLocaleString('pt-BR');
+
+            const riskAnalysis = analyzeWeatherRisk(data);
+
+            alertaDiv.innerHTML = `
+                <div class="clima-container">
+                    <div class="clima-header">
+                        <h3>${cidadeNome}, ${pais}</h3>
+                        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${descricao}">
+                        <p style="font-size: 1.1em; color: #666; text-transform: capitalize; margin-top: 0.5em;">
+                            ${descricao}
+                        </p>
+                    </div>
+                    <div class="clima-info">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-bottom: 1.5em;">
+                            <div style="text-align: center; padding: 1em; background: rgba(46, 125, 50, 0.1); border-radius: 10px;">
+                                <div style="font-size: 2.5em; font-weight: bold; color: #2E7D32;">${Math.round(temp)}°C</div>
+                                <div style="color: #666;">Temperatura Atual</div>
+                            </div>
+                            <div style="text-align: center; padding: 1em; background: rgba(46, 125, 50, 0.1); border-radius: 10px;">
+                                <div style="font-size: 1.8em; font-weight: bold; color: #2E7D32;">${Math.round(feels_like)}°C</div>
+                                <div style="color: #666;">Sensação Térmica</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5em; font-size: 0.95em;">
+                            <p><strong>🌡️ Máxima:</strong> ${Math.round(temp_max)}°C</p>
+                            <p><strong>🌡️ Mínima:</strong> ${Math.round(temp_min)}°C</p>
+                            <p><strong>💧 Umidade:</strong> ${humidity}%</p>
+                            <p><strong>💨 Vento:</strong> ${Math.round(vento * 3.6)} km/h</p>
+                            <p><strong>📊 Pressão:</strong> ${pressure} hPa</p>
+                            <p><strong>👁️ Visibilidade:</strong> ${Math.round(visibility/1000)} km</p>
+                            <p><strong>🌅 Amanhecer:</strong> ${horaAmanhecer}</p>
+                            <p><strong>🌇 Pôr do sol:</strong> ${horaPorDoSol}</p>
+                        </div>
+                        
+                        ${riskAnalysis}
+                        
+                        <div style="margin-top: 1.5em; padding: 1em; background: rgba(0, 123, 255, 0.1); border-radius: 8px; text-align: center;">
+                            <small style="color: #666;">
+                                <i class="fas fa-clock"></i> Última atualização: ${ultimaAtualizacao}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function analyzeWeatherRisk(data) {
+            const { main, weather, wind } = data;
+            const weatherId = weather[0].id;
+            const windSpeed = wind.speed * 3.6;
+            
+            let risks = [];
+            let riskLevel = 'low';
+            
+            if (weatherId >= 200 && weatherId < 300) {
+                risks.push('⚡ Tempestades com raios');
+                riskLevel = 'high';
+            } else if (weatherId >= 300 && weatherId < 600) {
+                risks.push('🌧️ Precipitação significativa');
+                riskLevel = weatherId >= 500 ? 'high' : 'medium';
+            }
+            
+            if (windSpeed > 50) {
+                risks.push('💨 Ventos muito fortes');
+                riskLevel = 'high';
+            } else if (windSpeed > 30) {
+                risks.push('💨 Ventos moderados a fortes');
+                riskLevel = riskLevel === 'low' ? 'medium' : riskLevel;
+            }
+            
+            if (main.temp > 35) {
+                risks.push('🔥 Temperatura muito alta');
+                riskLevel = riskLevel === 'low' ? 'medium' : riskLevel;
+            } else if (main.temp < 5) {
+                risks.push('❄️ Temperatura muito baixa');
+                riskLevel = riskLevel === 'low' ? 'medium' : riskLevel;
+            }
+            
+            if (risks.length === 0) {
+                return `
+                    <div style="margin-top: 1.5em; padding: 1em; background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50; border-radius: 8px;">
+                        <strong style="color: #2E7D32;">✅ Condições Favoráveis</strong>
+                        <p style="margin-top: 0.5em; color: #388E3C;">Não há alertas climáticos para sua região no momento.</p>
+                    </div>
+                `;
+            }
+            
+            const riskColors = {
+                low: { bg: 'rgba(255, 193, 7, 0.1)', border: '#FFC107', text: '#F57F17' },
+                medium: { bg: 'rgba(255, 152, 0, 0.1)', border: '#FF9800', text: '#E65100' },
+                high: { bg: 'rgba(244, 67, 54, 0.1)', border: '#F44336', text: '#C62828' }
+            };
+            
+            const colors = riskColors[riskLevel];
+            
+            return `
+                <div style="margin-top: 1.5em; padding: 1em; background: ${colors.bg}; border-left: 4px solid ${colors.border}; border-radius: 8px;">
+                    <strong style="color: ${colors.text};">⚠️ Alertas Identificados</strong>
+                    <ul style="margin-top: 0.5em; color: ${colors.text};">
+                        ${risks.map(risk => `<li>${risk}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top: 0.5em; font-size: 0.9em; color: #666;">
+                        Mantenha-se atento às condições e siga as orientações de segurança.
+                    </p>
+                </div>
+            `;
+        }
+
+        function searchRiskAreas() {
+            const cidade = document.getElementById('risk-city-input').value.trim();
+            const container = document.getElementById('risk-areas');
+            const button = document.getElementById('risk-search-button');
+
+            if (!cidade) {
+                alert('Por favor, digite o nome de uma cidade.');
+                return;
+            }
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+            button.disabled = true;
+
+            setTimeout(() => {
+                displayRiskAreas(cidade);
+                button.innerHTML = '<i class="fas fa-map-marked-alt"></i> Buscar Áreas de Risco';
+                button.disabled = false;
+            }, 1500);
+        }
+
+        function displayRiskAreas(cidade) {
+            const container = document.getElementById('risk-areas');
+            const riskData = generateRiskData(cidade);
+            
+            container.innerHTML = riskData.map(risk => `
+                <div class="risk-card">
+                    <h3><i class="${risk.icon}"></i> ${risk.title}</h3>
+                    <p>${risk.description}</p>
+                    <div style="margin: 1em 0;">
+                        <strong>Endereços de Risco:</strong>
+                        <ul style="margin-top: 0.5em; font-size: 0.9em;">
+                            ${risk.locations.map(loc => `<li>${loc}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1em;">
+                        <span class="risk-level ${risk.levelClass}">${risk.level}</span>
+                        <small style="color: #666;">Afeta ~${risk.affectedPeople} pessoas</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateRiskData(cidade) {
+            return [
+                {
+                    title: 'Alagamentos',
+                    icon: 'fas fa-water',
+                    description: `Áreas próximas a córregos e rios em ${cidade} com histórico de alagamentos.`,
+                    locations: ['Rua das Flores, Centro', 'Av. Principal, Bairro Norte', 'Rua do Comércio, Vila Sul'],
+                    level: 'Risco Alto',
+                    levelClass: 'risk-high',
+                    affectedPeople: '1.200'
+                },
+                {
+                    title: 'Deslizamentos',
+                    icon: 'fas fa-mountain',
+                    description: `Encostas e morros em ${cidade} com solo instável.`,
+                    locations: ['Morro do Cruzeiro', 'Ladeira São José', 'Rua da Cascata'],
+                    level: 'Risco Médio',
+                    levelClass: 'risk-medium',
+                    affectedPeople: '800'
+                },
+                {
+                    title: 'Ventos Fortes',
+                    icon: 'fas fa-wind',
+                    description: `Áreas com construções vulneráveis a vendavais em ${cidade}.`,
+                    locations: ['Conjunto Habitacional Norte', 'Vila Industrial', 'Bairro Alto'],
+                    level: 'Risco Médio',
+                    levelClass: 'risk-medium',
+                    affectedPeople: '950'
+                }
+            ];
+        }
+
+        function searchNews() {
+            const query = document.getElementById('news-search').value.trim();
+            const button = document.getElementById('news-button');
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+            button.disabled = true;
+
+            setTimeout(() => {
+                const news = generateNews(query);
+                displayNews(news);
+                button.innerHTML = '<i class="fas fa-search"></i> Buscar Notícias';
+                button.disabled = false;
+            }, 1000);
+        }
+
+        function generateNews(query = '') {
+            const allNews = [
+                {
+                    icon: 'fas fa-cloud-rain',
+                    title: 'Sistema de Alerta Precoce detecta chuvas fortes',
+                    description: 'Nova tecnologia permite prever tempestades com 2 horas de antecedência',
+                    time: '2 horas atrás'
+                },
+                {
+                    icon: 'fas fa-home',
+                    title: 'Técnicas de construção resiliente reduzem danos',
+                    description: 'Novas metodologias diminuem prejuízos de enchentes em 70%',
+                    time: '5 horas atrás'
+                },
+                {
+                    icon: 'fas fa-users',
+                    title: 'Capacitação em primeiros socorros',
+                    description: 'Mais de 500 famílias treinadas em resposta a emergências',
+                    time: '1 dia atrás'
+                },
+                {
+                    icon: 'fas fa-seedling',
+                    title: 'Reflorestamento previne deslizamentos',
+                    description: 'Projeto ambiental planta 10 mil árvores em áreas de risco',
+                    time: '2 dias atrás'
+                }
+            ];
+
+            if (query) {
+                return allNews.filter(news => 
+                    news.title.toLowerCase().includes(query.toLowerCase()) ||
+                    news.description.toLowerCase().includes(query.toLowerCase())
+                );
+            }
+            
+            return allNews;
+        }
+
+        function displayNews(news) {
+            const newsList = document.getElementById('lista-noticias');
+            
+            if (news.length === 0) {
+                newsList.innerHTML = '<li style="text-align: center; color: #666; font-style: italic;">Nenhuma notícia encontrada para sua busca.</li>';
+                return;
+            }
+            
+            newsList.innerHTML = news.map(item => `
+                <li>
+                    <i class="${item.icon}"></i>
+                    <strong>${item.title}:</strong> ${item.description}
+                    <small style="float: right; color: #666;">(${item.time})</small>
+                </li>
+            `).join('');
+        }
+
+        async function handleEmergencyForm(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitButton = form.querySelector('button[type="submit"]');
+            const messageDiv = document.getElementById('mensagem-sucesso');
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando Solicitação...';
+            submitButton.disabled = true;
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('https://formspree.io/f/xwpvdejn', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    showMessage(messageDiv, 
+                        '🚨 Solicitação de emergência enviada com sucesso! Nossa equipe entrará em contato em breve. Em caso de risco iminente, ligue imediatamente para os números de emergência.', 
+                        'success'
+                    );
+                    form.reset();
+                    
+                    setTimeout(() => {
+                        showEmergencyContacts();
+                    }, 2000);
+                } else {
+                    throw new Error('Erro no envio');
+                }
+            } catch (error) {
+                showMessage(messageDiv, 
+                    'Erro ao enviar solicitação. Por favor, tente novamente ou entre em contato pelos números de emergência.', 
+                    'error'
+                );
+            } finally {
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Solicitar Ajuda Emergencial';
+                submitButton.disabled = false;
+            }
+        }
+
+        async function handleContactForm(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitButton = form.querySelector('button[type="submit"]');
+            const messageDiv = document.getElementById('mensagem-contato');
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitButton.disabled = true;
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('https://formspree.io/f/xwpvdejn', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    showMessage(messageDiv, 'Mensagem enviada com sucesso! Retornaremos em breve.', 'success');
+                    form.reset();
+                } else {
+                    throw new Error('Erro no envio');
+                }
+            } catch (error) {
+                showMessage(messageDiv, 'Erro ao enviar mensagem. Tente novamente.', 'error');
+            } finally {
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Mensagem';
+                submitButton.disabled = false;
+            }
+        }
+
+        function showMessage(container, text, type) {
+            container.className = `message ${type}`;
+            container.textContent = text;
+            container.style.display = 'block';
+            
+            setTimeout(() => {
+                container.style.display = 'none';
+            }, 8000);
+        }
+
+        function loadInitialData() {
+            displayNews(generateNews());
+        }
+
+        function showEmergencyKit() {
+            const kitItems = [
+                '💧 Água potável (4 litros por pessoa)',
+                '🥫 Alimentos não perecíveis (3 dias)',
+                '🔦 Lanternas com pilhas extras',
+                '📱 Rádio portátil',
+                '🚑 Kit de primeiros socorros',
+                '💊 Medicamentos essenciais',
+                '📄 Documentos em sacos plásticos',
+                '💰 Dinheiro em espécie',
+                '🧥 Roupas de emergência',
+                '🔧 Ferramentas básicas',
+                '🔋 Carregador portátil',
+                '🧻 Itens de higiene pessoal'
+            ];
+
+            alert(`📋 KIT DE EMERGÊNCIA FAMILIAR\n\n${kitItems.join('\n')}\n\n✅ Mantenha sempre atualizado e em local de fácil acesso!`);
+        }
+
+        function showEvacuationRoutes() {
+            const routes = [
+                '🏫 Escola Municipal - Ponto de Encontro Principal',
+                '⛪ Igreja Central - Abrigo Temporário',
+                '🏥 Hospital Regional - Assistência Médica',
+                '🏢 Centro Comunitário - Suporte Logístico',
+                '🌳 Praça Central - Área Segura ao Ar Livre'
+            ];
+
+            alert(`🗺️ ROTAS DE EVACUAÇÃO\n\nPontos de Encontro Seguros:\n\n${routes.join('\n')}\n\n⚠️ Sempre siga as orientações das autoridades locais!`);
+        }
+
+        function showEmergencyContacts() {
+            const contacts = [
+                '🚒 Bombeiros: 193',
+                '🚑 SAMU: 192', 
+                '👮 Polícia: 190',
+                '🛡️ Defesa Civil: 199',
+                '☎️ Emergências Gerais: 911',
+                '📞 Central de Atendimento: 156'
+            ];
+
+            alert(`📞 CONTATOS DE EMERGÊNCIA\n\n${contacts.join('\n')}\n\n🔴 Em situações de risco iminente, ligue IMEDIATAMENTE!`);
+        }
+
+        function emergencyCall() {
+            if (confirm('🚨 ACESSO RÁPIDO À EMERGÊNCIA\n\nDeseja ver os contatos de emergência?')) {
+                showEmergencyContacts();
+            }
+        }
+    </script>
 </body>
 </html>
