@@ -1,9 +1,3 @@
-/* ===============================================
-   CLIMATECH - SISTEMA DE RESILIÊNCIA CLIMÁTICA
-   Desenvolvido por: Rafael Del Antonio
-   =============================================== */
-
-/* Reset e configurações base */
 * {
     margin: 0;
     padding: 0;
@@ -18,10 +12,6 @@ body {
     min-height: 100vh;
     padding-top: 90px;
 }
-
-/* ===============================================
-   HEADER E NAVEGAÇÃO
-   =============================================== */
 
 header {
     background: rgba(46, 125, 50, 0.95);
@@ -68,7 +58,6 @@ header h1:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Menu lateral */
 #menu-lateral {
     position: fixed;
     left: -280px;
@@ -121,7 +110,6 @@ header h1:hover {
     text-align: center;
 }
 
-/* Overlay para o menu */
 .overlay {
     display: none;
     position: fixed;
@@ -136,10 +124,6 @@ header h1:hover {
 .overlay.show {
     display: block;
 }
-
-/* ===============================================
-   SEÇÕES PRINCIPAIS
-   =============================================== */
 
 section {
     padding: 2.5em;
@@ -170,10 +154,6 @@ h2::after {
     margin: 15px auto;
     border-radius: 2px;
 }
-
-/* ===============================================
-   SISTEMA DE BUSCA
-   =============================================== */
 
 .search-container {
     display: flex;
@@ -215,10 +195,6 @@ h2::after {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
 }
-
-/* ===============================================
-   ALERTAS CLIMÁTICOS
-   =============================================== */
 
 #alerta-climatico {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
@@ -267,10 +243,6 @@ h2::after {
 .clima-info strong {
     color: #1B5E20;
 }
-
-/* ===============================================
-   ÁREAS DE RISCO
-   =============================================== */
 
 .risk-areas-container {
     display: grid;
@@ -326,10 +298,6 @@ h2::after {
     color: #2e7d32;
 }
 
-/* ===============================================
-   GALERIA DA DEFESA CIVIL
-   =============================================== */
-
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -382,10 +350,6 @@ h2::after {
     margin-bottom: 0.5em;
 }
 
-/* ===============================================
-   BOTÃO DE EMERGÊNCIA
-   =============================================== */
-
 .emergency-button {
     position: fixed;
     bottom: 30px;
@@ -420,10 +384,6 @@ h2::after {
         box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4), 0 0 0 0 rgba(211, 47, 47, 0); 
     }
 }
-
-/* ===============================================
-   FORMULÁRIOS
-   =============================================== */
 
 form {
     display: grid;
@@ -467,10 +427,6 @@ button[type="submit"]:hover {
     box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
 }
 
-/* ===============================================
-   NOTÍCIAS
-   =============================================== */
-
 #lista-noticias {
     list-style: none;
 }
@@ -488,10 +444,6 @@ button[type="submit"]:hover {
     background: rgba(46, 125, 50, 0.1);
     transform: translateX(5px);
 }
-
-/* ===============================================
-   MENSAGENS DE STATUS
-   =============================================== */
 
 .message {
     padding: 1em;
@@ -512,10 +464,6 @@ button[type="submit"]:hover {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
-
-/* ===============================================
-   API CREDITS
-   =============================================== */
 
 .api-credits {
     background: linear-gradient(135deg, #e3f2fd, #bbdefb);
@@ -558,10 +506,6 @@ button[type="submit"]:hover {
     text-decoration: underline;
 }
 
-/* ===============================================
-   BOTÕES DE RECURSOS
-   =============================================== */
-
 .resource-button {
     margin-top: 1em;
     padding: 0.8em 1.5em;
@@ -579,10 +523,6 @@ button[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
 }
-
-/* ===============================================
-   FOOTER
-   =============================================== */
 
 footer {
     background: linear-gradient(135deg, #263238, #37474f);
@@ -625,10 +565,6 @@ footer {
     align-items: center;
     gap: 10px;
 }
-
-/* ===============================================
-   RESPONSIVIDADE - MOBILE
-   =============================================== */
 
 @media (max-width: 768px) {
     body {
@@ -708,10 +644,6 @@ footer {
     }
 }
 
-/* ===============================================
-   UTILITÁRIOS E ANIMAÇÕES
-   =============================================== */
-
 .loading {
     display: inline-block;
     width: 20px;
@@ -728,7 +660,6 @@ footer {
     100% { transform: rotate(360deg); }
 }
 
-/* Efeito de fade-in para seções */
 section {
     animation: fadeIn 0.6s ease-in-out;
 }
@@ -744,7 +675,6 @@ section {
     }
 }
 
-/* Scrollbar personalizada */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -762,7 +692,6 @@ section {
     background: rgba(46, 125, 50, 0.8);
 }
 
-/* Estados de hover para melhor UX */
 .risk-card,
 .gallery-item,
 .social-media li,
@@ -770,7 +699,6 @@ section {
     cursor: pointer;
 }
 
-/* Acessibilidade - foco visível */
 button:focus,
 input:focus,
 select:focus,
@@ -780,7 +708,6 @@ textarea:focus,
     outline-offset: 2px;
 }
 
-/* Print styles */
 @media print {
     header,
     #menu-lateral,
@@ -802,7 +729,6 @@ textarea:focus,
     }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
     body {
         background: white;
@@ -822,7 +748,6 @@ textarea:focus,
     }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
